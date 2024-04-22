@@ -100,8 +100,6 @@ for month in months:
     print(f'{department} standard deviation of retention rate: {np.std(data[department])}')
     print('\n')
 
-'''
-#note you must comment out the previouly block of code to run the regression model
 
 #create a regression model to predict the retention rate for a specific department for month 13
 from sklearn.linear_model import LinearRegression
@@ -118,9 +116,57 @@ model.fit(X, y)
 # predict the retention rate for month 13
 prediction = model.predict([[13]])
 # print the predicted retention rate for month 13
-print(f'The predicted retention rate for {department} in month 13 is: {prediction[0]}')
-'''
+print(f'The predicted retention rate for {department} in month 13 is per regression model: {prediction[0]}')
 
+
+#build a machine learning model to predict the retention rate for a specific department for month 13
+from sklearn.ensemble import RandomForestRegressor
+# set the department to predict
+department = 'HR'
+# get the retention rate for the department
+y = data[department]
+# create a list of months
+X = np.array(months).reshape(-1, 1)
+# create a random forest regression model
+model = RandomForestRegressor()
+# fit the model to the data
+model.fit(X, y)
+# predict the retention rate for month 13
+prediction = model.predict([[13]])
+# print the predicted retention rate for month 13
+print(f'The predicted retention rate for {department} in month 13 is per random forest model: {prediction[0]}')
+
+#validate the regression and random forest models
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+# set the department to predict
+department = 'HR'
+# get the retention rate for the department
+y = data[department]
+# create a list of months
+X = np.array(months).reshape(-1, 1)
+# split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# create a linear regression model
+model = LinearRegression()
+# fit the model to the training data
+model.fit(X_train, y_train)
+# predict the retention rate for the testing data
+predictions = model.predict(X_test)
+# calculate the mean squared error of the model
+mse = mean_squared_error(y_test, predictions)
+# print the mean squared error of the model
+print(f'The mean squared error of the linear regression model is: {mse}')
+# create a random forest regression model
+model = RandomForestRegressor()
+# fit the model to the training data
+model.fit(X_train, y_train)
+# predict the retention rate for the testing data
+predictions = model.predict(X_test)
+# calculate the mean squared error of the model
+mse = mean_squared_error(y_test, predictions)
+# print the mean squared error of the model
+print(f'The mean squared error of the random forest model is: {mse}')
 
 
 
