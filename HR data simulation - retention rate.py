@@ -1,4 +1,6 @@
-# create random data for retention rate by department over a 5 year period
+#Prototype of a retention rate simulation for different departments
+
+# create random data for retention rate by department over a 12 month period
 
 import random
 from typing import Dict, List, Any
